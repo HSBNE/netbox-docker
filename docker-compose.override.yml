@@ -1,0 +1,46 @@
+version: '3.4'
+services:
+  postgres:
+    container_name: netbox-postgres
+    restart: unless-stopped
+    networks:
+      - services
+  redis:
+    container_name: netbox-redis
+    restart: unless-stopped
+    networks:
+      - services
+  redis-cache:
+    container_name: netbox-redis-cache
+    restart: unless-stopped
+    networks:
+      - services
+  netbox-worker:
+    container_name: netbox-worker
+    restart: unless-stopped
+    networks:
+      - services
+  netbox-housekeeping:
+    container_name: netbox-housekeeping
+    restart: unless-stopped
+    networks:
+      - services
+  netbox:
+    container_name: netbox
+    restart: unless-stopped
+    #ports:
+    #  - 8000:8080
+    networks:
+      - services
+
+networks:
+  services:
+    driver: bridge
+    name: services
+    ipam:
+      driver: default
+    #  config:
+    #    - subnet: 172.100.0.0/16
+    driver_opts:
+      com.docker.network.bridge.name: services
+
